@@ -20,22 +20,18 @@ public class movementControls : MonoBehaviour
     public Text BallCount;
     public Text ScoreText;
 
-    public object Panel;
-
     private int Score;
     private int BadCount;
     private int count;
-    private int Balls;
+    private int Balls; // lives 
+    
     private bool DangerCooldown = false;
-
+    
     private Vector3 PreviousPosition;
 
     public AudioSource Wallsound;
-    public Text WelcomeText;
-
     
-
-
+    
     void Start()
     {
         endpanel.SetActive(false);
@@ -50,12 +46,8 @@ public class movementControls : MonoBehaviour
         winText.text = "";
         defeatText.text = "";
         Wallsound = GetComponent<AudioSource>();
-        SetWelcomeText();
-
-
-
-
     }
+    
     private void Update()
     {
 
@@ -70,18 +62,6 @@ public class movementControls : MonoBehaviour
             Balls = Balls - 1;
             SetBallCount();
         }
-
-        if (Input.GetKeyUp(KeyCode.Return))
-        {
-            Destroy(WelcomeText);
-        }
-        if (Input.GetKeyUp(KeyCode.Return))
-        {
-
-            panel.SetActive(false);
-
-        }
-
     }
 
     void FixedUpdate()
@@ -103,17 +83,9 @@ public class movementControls : MonoBehaviour
             Score = Score + 1;
             SetScoreText();
         }
-        if (other.gameObject.CompareTag("BadPickUp"))
-        {
-            other.gameObject.SetActive(false);
-            count = count + 1;
-            BadCount = BadCount + 1;
-            Speed = Speed + 2.5f;
-            SetCountText();
-            Score = Score - 1;
-            SetScoreText();
-        }
-        //if the player hits a red enemy pickup, the player cannot win because their score can never reach the required number
+        
+                //if the player hits a red enemy pickup, the player cannot win because their score can never reach the required number
+        // if (other.gameObject.CompareTag("BadPickUp"))
         //{
         //  other.gameObject.SetActive(false);
         //  count = count - 1;
@@ -131,6 +103,18 @@ public class movementControls : MonoBehaviour
         // }
         //  
         //}
+        
+        if (other.gameObject.CompareTag("BadPickUp"))
+        {
+            other.gameObject.SetActive(false);
+            count = count + 1;
+            BadCount = BadCount + 1;
+            Speed = Speed + 2.5f;
+            SetCountText();
+            Score = Score - 1;
+            SetScoreText();
+        }
+
     }
     void OnCollisionStay(Collision other)
     {
@@ -166,14 +150,12 @@ public class movementControls : MonoBehaviour
             winText.text = "VICTORIOUS!";
             gameObject.SetActive(false);
             endpanel.SetActive(true);
-
         }
     }
 
     void SetScoreText()
     {
         ScoreText.text ="Score: " + Score.ToString();
-
     }
 
 
@@ -186,18 +168,6 @@ public class movementControls : MonoBehaviour
             defeatText.text = "YOU LOST!";
             gameObject.SetActive(false);
             endpanel.SetActive(true);
-
-
         }
     }
-
-    void SetWelcomeText()
-    {
-        WelcomeText.text = "Use Arrows to Navigate" + "\n" +
-            " Press R to restart" + "\n" +
-            "Press ESC to quit" + "\n" +
-            "Press + or - To Add or Remove lives" + "\n" +
-            "Press ENTER to Start";
-    }
-
 }
