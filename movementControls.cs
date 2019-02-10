@@ -12,8 +12,7 @@ public class movementControls : MonoBehaviour
     public GameObject endpanel;
  
     public float Speed;
-    public float forceMultiplier;
-
+ 
     public Text countText;
     public Text winText;
     public Text defeatText;
